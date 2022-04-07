@@ -17,7 +17,8 @@ defmodule EbanxFinancialService.Application do
         scheme: :http,
         plug: EbanxFinancialWeb.Endpoint,
         options: [port: http_port()]
-      )
+      ),
+      {ConCache, [name: repo_name(), ttl_check_interval: false]}
     ]
   end
 
@@ -25,5 +26,11 @@ defmodule EbanxFinancialService.Application do
     :ebanx_financial_service
     |> Application.fetch_env!(EbanxFinancialWeb.Endpoint)
     |> Keyword.fetch!(:port)
+  end
+
+  defp repo_name do
+    :ebanx_financial_service
+    |> Application.fetch_env!(EbanxFinancialService.Repo)
+    |> Keyword.get(:repo_name)
   end
 end

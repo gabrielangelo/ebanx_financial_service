@@ -13,7 +13,7 @@ defmodule EbanxFinancialService.MixProject do
 
   def application do
     [
-      extra_applications: [:logger, :plug_cowboy],
+      extra_applications: [:logger, :plug_cowboy, :con_cache],
       mod: {EbanxFinancialService.Application, []}
     ]
   end
@@ -22,6 +22,7 @@ defmodule EbanxFinancialService.MixProject do
     [
       {:plug_cowboy, "~> 2.0"},
       {:poison, "~> 5.0"},
+      {:con_cache, "~> 0.13"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false}
     ]
