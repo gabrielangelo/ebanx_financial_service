@@ -3,6 +3,7 @@ defmodule EbanxFinancialService.EbanxFinancialWeb.OperationsRouter do
 
   use Plug.Router
   alias EbanxFinancialService.Core.Operations
+  alias EbanxFinancialService.Core.Ledger
 
   plug(:match)
   plug(:dispatch)
@@ -11,6 +12,17 @@ defmodule EbanxFinancialService.EbanxFinancialWeb.OperationsRouter do
     conn.body_params
     |> Operations.execute()
     |> handle_response(conn)
+  end
+
+  get "/balance/" do
+    conn.query_params
+    |> Map.get(:account_id)
+    |> Ledger.balance()
+  end
+
+  post "/reset" do
+    supervisor = EbanxFinancialService.Application.get_supervisor_name()
+    Supervisor.terminate_child(supervisor, ConCache)
   end
 
   defp handle_response(response, conn) do

@@ -7,9 +7,11 @@ defmodule EbanxFinancialService.Application do
 
   @impl true
   def start(_type, _args) do
-    opts = [strategy: :one_for_one, name: EbanxFinancialService.Supervisor]
+    opts = [strategy: :one_for_one, name: get_supervisor_name()]
     Supervisor.start_link(childrens(), opts)
   end
+
+  def get_supervisor_name, do: EbanxFinancialService.Supervisor
 
   defp childrens do
     [
@@ -30,7 +32,7 @@ defmodule EbanxFinancialService.Application do
 
   defp repo_name do
     :ebanx_financial_service
-    |> Application.fetch_env!(EbanxFinancialService.Repo)
+    |> Application.fetch_env!(EbanxFinancialService.ConCacheRepo)
     |> Keyword.get(:repo_name)
   end
 end
