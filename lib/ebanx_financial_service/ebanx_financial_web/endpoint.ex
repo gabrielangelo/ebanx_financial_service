@@ -6,6 +6,7 @@ defmodule EbanxFinancialWeb.Endpoint do
   alias Plug.Adapters.Cowboy2
 
   require Logger
+  @content_type "application/json"
 
   plug(Plug.Logger, log: :debug)
   plug(:match)
@@ -17,7 +18,7 @@ defmodule EbanxFinancialWeb.Endpoint do
   )
 
   plug(:dispatch)
-  plug(EbanxFinancialWeb.Router)
+  forward("/event", to: EbanxFinancialWeb.OperationsRouter)
 
   def start_link(_opts) do
     with {:ok, [port: port] = config} <- config() do
@@ -35,6 +36,12 @@ defmodule EbanxFinancialWeb.Endpoint do
       id: __MODULE__,
       start: {__MODULE__, :start_link, [opts]}
     }
+  end
+
+  get "/reset" do
+    conn
+    |> put_resp_content_type(@content_type)
+    |> send_resp(200, "")
   end
 
   match _ do

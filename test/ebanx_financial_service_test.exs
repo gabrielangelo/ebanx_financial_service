@@ -1,8 +1,8 @@
-defmodule EbanxFinancialServiceTest do
-  use ExUnit.Case
-  doctest EbanxFinancialService
+# defmodule EbanxFinancialServiceTest do
+#   use ExUnit.Case
+#   doctest EbanxFinancialService
 
-  test "greets the world" do
-    assert EbanxFinancialService.hello() == :world
-  end
-end
+#   test "greets the world" do
+#     assert EbanxFinancialService.hello() == :world
+#   end
+# end

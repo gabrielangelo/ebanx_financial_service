@@ -22,7 +22,8 @@ defmodule EbanxFinancialService.MixProject do
     [
       {:plug_cowboy, "~> 2.0"},
       {:poison, "~> 5.0"},
-      {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false}
     ]
   end
 end
