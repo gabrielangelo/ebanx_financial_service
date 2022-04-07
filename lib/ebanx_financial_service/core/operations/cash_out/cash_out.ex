@@ -12,7 +12,7 @@ defmodule Core.Operations.CashOut do
   def create(%{"type" => operation_type, "destination" => destination_account_id} = operation) do
     with true <- operation_type in SupportedOperations.valid_operations(),
          {:ok, account} <- Accounts.get_account_by_id(destination_account_id),
-         {:ok, account_debited} <- Ledger.execute(account, operation) do
+         {:ok, account_debited} <- Ledger.execute_operation(account, operation) do
       {:ok, Map.put(operation, "debited_account", account_debited)}
     else
       {:error, _} = error -> error
