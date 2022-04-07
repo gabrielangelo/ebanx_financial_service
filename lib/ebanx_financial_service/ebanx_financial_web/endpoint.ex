@@ -1,4 +1,4 @@
-defmodule EbanxFinancialWeb.Endpoint do
+defmodule EbanxFinancialService.EbanxFinancialWeb.Endpoint do
   use Plug.Router
   use Plug.Debugger
   use Plug.ErrorHandler
@@ -18,7 +18,7 @@ defmodule EbanxFinancialWeb.Endpoint do
   )
 
   plug(:dispatch)
-  forward("/event", to: EbanxFinancialWeb.OperationsRouter)
+  forward("/event", to: EbanxFinancialService.EbanxFinancialWeb.OperationsRouter)
 
   def start_link(_opts) do
     with {:ok, [port: port] = config} <- config() do
@@ -28,8 +28,8 @@ defmodule EbanxFinancialWeb.Endpoint do
   end
 
   @spec child_spec(any) :: %{
-          id: EbanxFinancialWeb.Endpoint,
-          start: {EbanxFinancialWeb.Endpoint, :start_link, [...]}
+          id: EbanxFinancialService.EbanxFinancialWeb.Endpoint,
+          start: {EbanxFinancialService.EbanxFinancialWeb.Endpoint, :start_link, [...]}
         }
   def child_spec(opts) do
     %{

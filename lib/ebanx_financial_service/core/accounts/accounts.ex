@@ -1,4 +1,4 @@
-defmodule Core.Accounts do
+defmodule EbanxFinancialService.Core.Accounts do
   @moduledoc false
   alias EbanxFinancialService.ConCacheRepo
   @table "accounts"

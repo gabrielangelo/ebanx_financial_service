@@ -1,9 +1,13 @@
-defmodule Core.Ledger do
+defmodule EbanxFinancialService.Core.Ledger do
   @moduledoc false
 
-  alias Core.Accounts
-  alias Core.Operations.CashIn.SupportedOperations, as: CashInSupportedOperations
-  alias Core.Operations.CashOut.SupportedOperations, as: CashOutSupportedOperations
+  alias EbanxFinancialService.Core.Accounts
+
+  alias EbanxFinancialService.Core.Operations.CashIn.SupportedOperations,
+    as: CashInSupportedOperations
+
+  alias EbanxFinancialService.Core.Operations.CashOut.SupportedOperations,
+    as: CashOutSupportedOperations
 
   @spec execute_operation(map(), map) :: {:error, any} | {:ok, map}
   def execute_operation(account, %{"type" => type} = operation) do
@@ -57,5 +61,4 @@ defmodule Core.Ledger do
 
   defp has_funds?(%{"balance" => balance}, amount) when amount <= balance, do: true
   defp has_funds?(_, _), do: false
-
 end

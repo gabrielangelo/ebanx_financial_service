@@ -1,8 +1,8 @@
-defmodule EbanxFinancialWeb.OperationsRouter do
+defmodule EbanxFinancialService.EbanxFinancialWeb.OperationsRouter do
   @moduledoc false
 
   use Plug.Router
-  alias Core.Operations
+  alias EbanxFinancialService.Core.Operations
 
   plug(:match)
   plug(:dispatch)

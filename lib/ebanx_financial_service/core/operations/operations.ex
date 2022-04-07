@@ -1,9 +1,13 @@
-defmodule Core.Operations do
+defmodule EbanxFinancialService.Core.Operations do
   @moduledoc false
 
-  alias Core.Operations.{CashIn, CashOut}
-  alias Core.Operations.CashIn.SupportedOperations, as: CashInSupportedOperations
-  alias Core.Operations.CashOut.SupportedOperations, as: CashOutSupportedOperations
+  alias EbanxFinancialService.Core.Operations.{CashIn, CashOut}
+
+  alias EbanxFinancialService.Core.Operations.CashIn.SupportedOperations,
+    as: CashInSupportedOperations
+
+  alias EbanxFinancialService.Core.Operations.CashOut.SupportedOperations,
+    as: CashOutSupportedOperations
 
   @cash_in_valid_operations CashInSupportedOperations.valid_operations()
   @cash_out_valid_operations CashOutSupportedOperations.valid_operations()

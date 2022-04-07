@@ -15,7 +15,7 @@ defmodule EbanxFinancialService.Application do
     [
       Plug.Cowboy.child_spec(
         scheme: :http,
-        plug: EbanxFinancialWeb.Endpoint,
+        plug: EbanxFinancialService.EbanxFinancialWeb.Endpoint,
         options: [port: http_port()]
       ),
       {ConCache, [name: repo_name(), ttl_check_interval: false]}
@@ -24,7 +24,7 @@ defmodule EbanxFinancialService.Application do
 
   defp http_port do
     :ebanx_financial_service
-    |> Application.fetch_env!(EbanxFinancialWeb.Endpoint)
+    |> Application.fetch_env!(EbanxFinancialService.EbanxFinancialWeb.Endpoint)
     |> Keyword.fetch!(:port)
   end
 

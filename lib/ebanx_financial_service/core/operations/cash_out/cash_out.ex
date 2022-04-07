@@ -1,9 +1,9 @@
-defmodule Core.Operations.CashOut do
+defmodule EbanxFinancialService.Core.Operations.CashOut do
   @moduledoc false
 
-  alias Core.Accounts
-  alias Core.Ledger
-  alias Core.Operations.CashOut.SupportedOperations
+  alias EbanxFinancialService.Core.Accounts
+  alias EbanxFinancialService.Core.Ledger
+  alias EbanxFinancialService.Core.Operations.CashOut.SupportedOperations
 
   @spec create(map) ::
           {:error, String.t()}
