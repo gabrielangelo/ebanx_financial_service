@@ -1,8 +1,13 @@
 version: 2.0
-jobs:
-  build:
+
+executors:
+  my-executor:
     docker:
       - image: circleci/elixir:1.11.2
+
+jobs:
+  build:
+    executor: my-executor
     working_directory: ~/circleci-demo-elixir
     steps:
       - type: checkout
@@ -11,14 +16,12 @@ jobs:
       - run: mix do deps.get, compile --warnings-as-errors
 
   lint:
-    docker:
-      - image: circleci/elixir:1.11.2
+    executor: my-executor
     steps:
       - run: mix credo --strict
       - run: mix dialyzer --format short
-      
+
   test:
-    docker:
-      - image: circleci/elixir:1.11.2
+    executor: my-executor
     steps:
       - test: mix do deps.get, compile --warnings-as-errors, mix test
