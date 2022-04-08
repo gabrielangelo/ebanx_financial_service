@@ -2,7 +2,7 @@ version: 2.0
 jobs:
   build:
     docker:
-      - image: circleci/elixir:1.11.2
+      - image: cimg/elixir:1.13.4
     working_directory: ~/circleci-demo-elixir-phoenix
     steps:
       - type: checkout
@@ -11,4 +11,4 @@ jobs:
       - run: mix do deps.get, compile --warnings-as-errors
       - run: mix credo --strict
       - run: mix dialyzer --format short
-      - run: mix test
+      - run: mix test 
