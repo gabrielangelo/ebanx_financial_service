@@ -1,13 +1,16 @@
 version: 2.0
 
 executors:
-  my-executor:
+  minimal-elixir:
     docker:
       - image: circleci/elixir:1.11.2
+        environment:
+          DOCKER_ENV: test
+          MIX_ENV: test
 
 jobs:
   build:
-    executor: my-executor
+    executor: minimal-elixir
     working_directory: ~/circleci-demo-elixir
     steps:
       - type: checkout
@@ -16,12 +19,12 @@ jobs:
       - run: mix do deps.get, compile --warnings-as-errors
 
   lint:
-    executor: my-executor
+    executor: minimal-elixir
     steps:
       - run: mix credo --strict
       - run: mix dialyzer --format short
 
   test:
-    executor: my-executor
+    executor: minimal-elixir
     steps:
       - test: mix do deps.get, compile --warnings-as-errors, mix test
