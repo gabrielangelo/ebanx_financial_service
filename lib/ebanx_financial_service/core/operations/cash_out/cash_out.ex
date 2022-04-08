@@ -1,5 +1,6 @@
 defmodule EbanxFinancialService.Core.Operations.CashOut do
   @moduledoc false
+  require Logger
 
   alias EbanxFinancialService.Core.Accounts
   alias EbanxFinancialService.Core.Ledger
@@ -17,9 +18,13 @@ defmodule EbanxFinancialService.Core.Operations.CashOut do
   end
 
   defp do_create(operation, account) do
+    Logger.info("performing cash out operation")
+
     with true <- operation["type"] in SupportedOperations.valid_operations(),
          {:ok, account} <- Accounts.get_account_by_id(account),
          {:ok, account_debited} <- Ledger.execute_operation(account, operation) do
+      Logger.info("cash out operation successfully executed")
+
       {:ok, Map.put(operation, "debited_account", account_debited)}
     else
       {:error, _} = error -> error

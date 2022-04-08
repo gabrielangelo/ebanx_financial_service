@@ -1,5 +1,6 @@
 defmodule EbanxFinancialService.Core.Ledger do
   @moduledoc false
+  require Logger
 
   alias EbanxFinancialService.Core.Accounts
 
@@ -33,29 +34,45 @@ defmodule EbanxFinancialService.Core.Ledger do
     end
   end
 
-  defp do_in(_, %{"amount" => amount}) when amount < 0,
-    do: {:error, "amount_cannot_be_negative"}
+  defp do_in(_, %{"amount" => amount} = operation) when amount < 0 do
+    Logger.error("error during cash in ledger operation", inspect(operation))
+    {:error, "amount_cannot_be_negative"}
+  end
 
   defp do_in(account, operation) do
+    Logger.info("performing cash in ledger operation")
     increased_account = %{account | "balance" => account["balance"] + operation["amount"]}
     update_account(account, increased_account)
   end
 
   defp do_out(account, operation) do
+    Logger.info("performing cash out ledger operation")
+
     operation_amount = operation["amount"]
 
+    Logger.info("checking funds")
+
     if has_funds?(account, operation_amount) do
+      Logger.info("account has funds")
+
       debited_account = %{account | "balance" => account["balance"] - operation_amount}
       update_account(account, debited_account)
     else
-      {:error, :insuficient_funds}
+      Logger.error("account hasn't funds")
+
+      {:error, "insuficient_funds"}
     end
   end
 
   defp update_account(account, data) do
     case Accounts.update_account(account["id"], data) do
-      {:error, _} = error -> error
-      :ok -> {:ok, data}
+      {:error, _} = error ->
+        Logger.error("error during account update", inspect(error))
+        error
+
+      :ok ->
+        Logger.info("account updated")
+        {:ok, data}
     end
   end
 
