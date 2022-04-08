@@ -19,7 +19,7 @@ defmodule EbanxFinancialService.Core.Ledger do
         do_out(account, operation)
 
       true ->
-        {:error, :invalid_operation_type}
+        {:error, "invalid_operation_type"}
     end
   end
 
@@ -34,7 +34,7 @@ defmodule EbanxFinancialService.Core.Ledger do
   end
 
   defp do_in(_, %{"amount" => amount}) when amount < 0,
-    do: {:error, :amount_cannot_be_negative}
+    do: {:error, "amount_cannot_be_negative"}
 
   defp do_in(account, operation) do
     increased_account = %{account | "balance" => account["balance"] + operation["amount"]}

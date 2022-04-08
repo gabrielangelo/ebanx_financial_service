@@ -28,8 +28,12 @@ defmodule EbanxFinancialService.Core.Operations.CashOut do
     end
   end
 
-  defp get_account_by_type(%{"destination" => destination_account_id}),
-    do: {:ok, destination_account_id}
+  defp get_account_by_type(%{"origin" => origin_account, "destination" => _, "type" => type})
+       when type == "transfer",
+       do: {:ok, origin_account}
+
+  defp get_account_by_type(%{"destination" => destination_account}),
+    do: {:ok, destination_account}
 
   defp get_account_by_type(%{"origin" => origin_account_id}), do: {:ok, origin_account_id}
 

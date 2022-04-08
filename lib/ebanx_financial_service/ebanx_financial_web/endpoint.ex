@@ -13,12 +13,12 @@ defmodule EbanxFinancialService.EbanxFinancialWeb.Endpoint do
 
   plug(Plug.Parsers,
     parsers: [:json],
-    pass: ["application/json"],
+    pass: [@content_type],
     json_decoder: Poison
   )
 
   plug(:dispatch)
-  forward("/event", to: EbanxFinancialService.EbanxFinancialWeb.OperationsRouter)
+  forward("/", to: EbanxFinancialService.EbanxFinancialWeb.OperationsRouter)
 
   def start_link(_opts) do
     with {:ok, [port: port] = config} <- config() do
@@ -38,25 +38,5 @@ defmodule EbanxFinancialService.EbanxFinancialWeb.Endpoint do
     }
   end
 
-  get "/reset" do
-    conn
-    |> put_resp_content_type(@content_type)
-    |> send_resp(200, "")
-  end
-
-  match _ do
-    conn
-    |> put_resp_content_type("text/html")
-    |> send_resp(302, redirect_body())
-  end
-
-  defp redirect_body do
-    ~S(<html><body>You are being <a href=")
-    |> Kernel.<>(~S(">redirected</a>.</body></html>))
-  end
-
   defp config, do: Application.fetch_env(:ebanx_server, __MODULE__)
-
-  def handle_errors(%{status: status} = conn, %{kind: _kind, reason: _reason, stack: _stack}),
-    do: send_resp(conn, status, "Something went wrong")
 end

@@ -11,15 +11,13 @@ defmodule EbanxFinancialService.ConCacheRepo do
 
   @spec create(String.t(), map()) :: {:ok, map} | {:error, :already_exists}
   def create(table, data) do
-    data = cast_row(data)
-
     case ConCache.insert_new(
            repo_name(),
            set_lookup_key(
              table,
              data["id"]
            ),
-           data
+           cast_row(data)
          ) do
       {:error, _} = error -> error
       :ok -> {:ok, data}
@@ -35,11 +33,10 @@ defmodule EbanxFinancialService.ConCacheRepo do
 
   defp set_lookup_key(table, id), do: "#{table}/#{id}"
 
-  defp cast_row(%{"id" => id} = row) when is_binary(id),
-    do: %{row | "id" => String.to_integer(id)}
+  defp cast_row(%{"id" => id} = row) when is_binary(id), do: row
 
-  defp cast_row(row),
-    do: row
+  defp cast_row(%{"id" => id} = row) when is_integer(id),
+    do: %{row | "id" => Integer.to_string(id)}
 
   defp repo_name do
     :ebanx_financial_service

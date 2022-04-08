@@ -17,10 +17,10 @@ defmodule EbanxFinancialService.EbanxFinancialWebTest do
   end
 
   test "/reset route" do
-    assert {:ok, %{"John" => "Doe", "id" => 550}} ==
-             Repo.create("test_table", %{"John" => "Doe", "id" => 550})
+    assert {:ok, %{"John" => "Doe", "id" => "550"}} ==
+             Repo.create("test_table", %{"John" => "Doe", "id" => "550"})
 
-    assert {:ok, %{"John" => "Doe", "id" => 550}} == Repo.get_by_id("test_table", 550)
+    assert {:ok, %{"John" => "Doe", "id" => "550"}} == Repo.get_by_id("test_table", 550)
 
     conn =
       :post
@@ -29,7 +29,7 @@ defmodule EbanxFinancialService.EbanxFinancialWebTest do
 
     assert conn.state == :sent
     assert conn.status == 200
-    assert conn.resp_body == ""
+    assert conn.resp_body == "OK"
 
     assert {:not_found, "resource with id 550 not found in table test_table"} ==
              Repo.get_by_id("test_table", 550)
@@ -45,7 +45,7 @@ defmodule EbanxFinancialService.EbanxFinancialWebTest do
 
     assert conn.state == :sent
     assert conn.status == 201
-    assert Poison.decode!(conn.resp_body) == %{"destination" => %{"balance" => 20, "id" => 100}}
+    assert Poison.decode!(conn.resp_body) == %{"destination" => %{"balance" => 10, "id" => "100"}}
   end
 
   test "Deposit into existing account" do
@@ -60,7 +60,7 @@ defmodule EbanxFinancialService.EbanxFinancialWebTest do
 
     assert conn.state == :sent
     assert conn.status == 201
-    assert Poison.decode!(conn.resp_body) == %{"destination" => %{"balance" => 60, "id" => 150}}
+    assert Poison.decode!(conn.resp_body) == %{"destination" => %{"balance" => 60, "id" => "150"}}
   end
 
   test "Get balance for non-existing account" do
@@ -105,6 +105,7 @@ defmodule EbanxFinancialService.EbanxFinancialWebTest do
 
   test "Withdraw from existing account" do
     Accounts.create_account(%{"id" => 150, "balance" => 50})
+
     conn =
       :post
       |> conn("/event", %{"type" => "withdraw", "origin" => "150", "amount" => 5})
@@ -114,7 +115,7 @@ defmodule EbanxFinancialService.EbanxFinancialWebTest do
 
     assert conn.state == :sent
     assert conn.status == 201
-    assert Poison.decode!(conn.resp_body) == %{"origin" => %{"id" => 150, "balance" => 45}}
+    assert Poison.decode!(conn.resp_body) == %{"origin" => %{"id" => "150", "balance" => 45}}
   end
 
   test "Transfer from non-existing account" do
