@@ -16,9 +16,9 @@ defmodule EbanxFinancialService.Core.Operations do
           {:error, String.t()}
           | {:not_found, String.t()}
           | {:ok, map}
-  def execute(%{type: type} = operation) when type in @cash_in_valid_operations,
+  def execute(%{"type" => type} = operation) when type in @cash_in_valid_operations,
     do: CashIn.create(operation)
 
-  def execute(%{type: type} = operation) when type in @cash_out_valid_operations,
+  def execute(%{"type" => type} = operation) when type in @cash_out_valid_operations,
     do: CashOut.create(operation)
 end

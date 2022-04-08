@@ -15,7 +15,7 @@ defmodule EbanxFinancialService.Core.Accounts do
     |> get_account_by_id()
     |> case do
       {:not_found, _} -> create_account(data)
-      account -> account
+      {:ok, _} = result -> result
     end
   end
 end

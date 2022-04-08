@@ -23,13 +23,13 @@ defmodule EbanxFinancialService.Core.Ledger do
     end
   end
 
-  @spec balance(map) :: {:not_found, String.t()} | {:ok, Integer.t()}
-  def balance(account) do
-    account["id"]
+  @spec balance(integer()) :: {:not_found, integer()} | {:ok, integer()}
+  def balance(account_id) do
+    account_id
     |> Accounts.get_account_by_id()
     |> case do
       {:ok, account} -> {:ok, account["balance"]}
-      error -> error
+      _ -> {:not_found, 0}
     end
   end
 
