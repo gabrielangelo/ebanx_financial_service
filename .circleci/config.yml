@@ -27,7 +27,7 @@ jobs:
   test:
     executor: minimal-elixir
     steps:
-      - test: mix do deps.get, compile --warnings-as-errors, mix test
+      - run: mix do deps.get, compile --warnings-as-errors, mix test
 
 workflows:
   version: 2
