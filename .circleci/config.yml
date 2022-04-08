@@ -34,7 +34,10 @@ workflows:
   workflow:
     jobs:
       - build:
-          context: minimal
+          context: banking
+          filters:
+            tags:
+              only: /.*/
       - lint:
           requires:
             - build
