@@ -4,9 +4,6 @@ executors:
   minimal-elixir:
     docker:
       - image: circleci/elixir:1.11.2
-        environment:
-          DOCKER_ENV: test
-          MIX_ENV: test
 
 jobs:
   build:
