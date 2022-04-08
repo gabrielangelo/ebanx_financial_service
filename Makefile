@@ -11,8 +11,12 @@ coveralls:
 	@mix coveralls
 
 setup:
-	@mix do code_review, test_cli
-	
+	@mix do deps.get, code_review
+	@MIX_ENV=test mix test_ci
+
+run_tests: 
+	@mix test_ci
+
 build_container:
 	@docker-compose build --no-cache
 	@docker-compose up

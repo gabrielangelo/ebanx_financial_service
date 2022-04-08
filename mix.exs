@@ -12,7 +12,6 @@ defmodule EbanxFinancialService.MixProject do
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [
         coveralls: :test,
-        test_ci: :test,
         "coveralls.detail": :test,
         "coveralls.post": :test,
         "coveralls.html": :test
