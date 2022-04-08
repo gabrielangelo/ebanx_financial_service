@@ -1,13 +1,9 @@
 version: 2.1
 
-executors:
-  minimal-elixir:
-    docker:
-      - image: circleci/elixir:1.11.2
-
 jobs:
   build:
-    executor: minimal-elixir
+    docker:
+      - image: circleci/elixir:1.11.2
     working_directory: ~/circleci-demo-elixir
     steps:
       - type: checkout
