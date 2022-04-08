@@ -28,3 +28,14 @@ jobs:
     executor: minimal-elixir
     steps:
       - test: mix do deps.get, compile --warnings-as-errors, mix test
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - lint:
+          requires:
+            - build
+      - test:
+          requires:
+            - build
