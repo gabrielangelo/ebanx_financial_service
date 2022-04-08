@@ -33,6 +33,8 @@ workflows:
   version: 2
   workflow:
     jobs:
+      - build:
+          context: minimal
       - lint:
           requires:
             - build
